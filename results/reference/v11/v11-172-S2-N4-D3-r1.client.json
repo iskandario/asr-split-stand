@@ -1,0 +1,56 @@
+{
+  "status": "done",
+  "run_id": "v11-172-S2-N4-D3-r1",
+  "chromium": "131.0.6778.33",
+  "cpu_quota": "25000 100000",
+  "nproc": 4,
+  "qdisc_at_start": "qdisc noqueue 0: root refcnt 2",
+  "net_timeline": [
+    {
+      "t_epoch_ms": 1794859114912.3083,
+      "phase": "N1"
+    },
+    {
+      "t_epoch_ms": 1794859135005.533,
+      "phase": "N3"
+    },
+    {
+      "t_epoch_ms": 1794859155007.6763,
+      "phase": "N1"
+    },
+    {
+      "t_epoch_ms": 1794859175009.4421,
+      "phase": "N3"
+    },
+    {
+      "t_epoch_ms": 1794859195011.1592,
+      "phase": "N1"
+    },
+    {
+      "t_epoch_ms": 1794859215013.0676,
+      "phase": "N3"
+    },
+    {
+      "t_epoch_ms": 1794859235014.9119,
+      "phase": "N1"
+    }
+  ],
+  "driver_wall_s": 139.8800172805786,
+  "server": "http://server:8000",
+  "ua": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/131.0.6778.33 Safari/537.36",
+  "cores": 4,
+  "localLoadMs": 28206.399999999907,
+  "transformersVersion": "3.8.1",
+  "afterWarmup": {
+    "localMs": 19985.639999999945,
+    "serverMs": 771.1262766000345,
+    "mbps": 4.6647160166548804,
+    "rtt": null
+  },
+  "t0_epoch_ms": 1794859186029.2,
+  "wallMs": 67851.8999999999,
+  "traffic": {
+    "audio_bytes": 2387420,
+    "probe_bytes": 0
+  }
+}

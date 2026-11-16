@@ -1,0 +1,204 @@
+{
+  "run_id": "v11-098-S5-N1-D1-r3",
+  "experiment": "v11",
+  "block": "main",
+  "order": 98,
+  "params": {
+    "strategy": "S5",
+    "network": "N1",
+    "device": "D1"
+  },
+  "levels": {
+    "network": {
+      "name": "N1",
+      "rate": "50mbit",
+      "delay_ms": 20,
+      "label": "хорошая"
+    },
+    "device": {
+      "cpus": 1.0,
+      "label": "быстрое (1 ядро)"
+    }
+  },
+  "repetition": 3,
+  "seed": 20261117,
+  "status": "ok",
+  "exit_code": 0,
+  "started_at": "2026-11-16T19:27:16.635481+00:00",
+  "finished_at": "2026-11-16T19:28:46.838918+00:00",
+  "duration_s": 90.19684553146362,
+  "server": {
+    "cpu_mean_cores": 0.23881101243708278,
+    "cpu_peak_cores": 0.5825000000000031,
+    "inferences": 18.0
+  },
+  "stdout_tail": "v11-098-S5-N1-D1-r3: 16 фрагментов, 90 с\n",
+  "stderr_tail": "",
+  "git": {
+    "commit": "8ee7e0c899098cc447add5c898d1fed997b10d28",
+    "dirty": false
+  },
+  "images": {
+    "server": {
+      "image": "asr-stand-server:1.0",
+      "id": "sha256:52cbadd2449d61c9682d34917c071bdf3edc22cf887d7c6072a607d2ebb503b0",
+      "repo_digests": [
+        "ghcr.io/iskandario/asr-stand-server@sha256:fce2ad5e5ba60c8840ada52e3f7e6f12dbdda07607611cd1b98347ca9c36ca53"
+      ],
+      "created": "2026-11-16T19:14:38.160049137Z"
+    },
+    "client": {
+      "image": "asr-stand-client:1.0",
+      "id": "sha256:ca2bc12eb0d27241de4df62982868b612f350e8e59ea750c57f86c3f9c435db5",
+      "repo_digests": [
+        "ghcr.io/iskandario/asr-stand-client@sha256:a386154b0aca6398c8215d2e4d2cc39b95e1ea2c9e0a13f0077bc58dc15d1c9b"
+      ],
+      "created": "2026-11-16T19:15:02.094580815Z"
+    },
+    "prometheus": {
+      "image": "prom/prometheus:v2.55.1",
+      "id": "sha256:899b369f202e252dfef80f3999e981a3d7fc7445228aa6098177acaf50349a76",
+      "repo_digests": [
+        "prom/prometheus@sha256:2659f4c2ebb718e7695cb9b25ffa7d6be64db013daba13e05c875451cf51b0d3"
+      ],
+      "created": "2024-11-06T10:35:27.058590597Z"
+    }
+  },
+  "host": {
+    "os": "Linux-7.0.0-1017-azure-x86_64-with-glibc2.39",
+    "machine": "x86_64",
+    "cpu_count": 4,
+    "python": "3.12.3",
+    "cpu": "AMD EPYC 9V74 80-Core Processor",
+    "mem_bytes": 16760348672,
+    "ci": {
+      "GITHUB_RUN_ID": "43937158895",
+      "GITHUB_JOB": "block",
+      "RUNNER_NAME": "GitHub Actions 1000000106",
+      "GITHUB_SHA": "8ee7e0c899098cc447add5c898d1fed997b10d28"
+    },
+    "docker": {
+      "server_version": "28.0.4",
+      "vm_ncpu": 4,
+      "vm_mem_bytes": 16760348672,
+      "kernel": "7.0.0-1017-azure",
+      "os": "Ubuntu 24.04.5 LTS"
+    }
+  },
+  "config_file": "configs/v11.yaml",
+  "config_sha256": "6be8cc1e6834ac944f5e8161ff2801c300bcf405d26027edc20e3430ef981d94",
+  "config_resolved": {
+    "server_url": "http://server:8000",
+    "run_timeout_s": 900,
+    "devices": {
+      "D1": {
+        "cpus": 1.0,
+        "label": "быстрое (1 ядро)"
+      },
+      "D2": {
+        "cpus": 0.5,
+        "label": "среднее (0,5 ядра)"
+      },
+      "D3": {
+        "cpus": 0.25,
+        "label": "слабое (0,25 ядра)"
+      }
+    },
+    "networks": {
+      "N0": {
+        "name": "N0",
+        "loss_pct": 100,
+        "label": "нет сети"
+      },
+      "N1": {
+        "name": "N1",
+        "rate": "50mbit",
+        "delay_ms": 20,
+        "label": "хорошая"
+      },
+      "N2": {
+        "name": "N2",
+        "rate": "8mbit",
+        "delay_ms": 80,
+        "jitter_ms": 20,
+        "label": "мобильная"
+      },
+      "N3": {
+        "name": "N3",
+        "rate": "1mbit",
+        "delay_ms": 250,
+        "loss_pct": 2,
+        "label": "плохая"
+      },
+      "N4": {
+        "name": "N4",
+        "alternate": [
+          "N1",
+          "N3"
+        ],
+        "period_s": 20,
+        "label": "нестабильная"
+      }
+    },
+    "client": {
+      "local_model": "whisper-base",
+      "threads": 1,
+      "max_new_tokens": 64,
+      "threshold_mbps": 5,
+      "margin": 0.1,
+      "ewma_alpha_net": 0.4,
+      "ewma_alpha_compute": 0.3,
+      "probe_interval_ms": 1000,
+      "probe_every": 3,
+      "probe_bytes": 16384,
+      "ping_timeout_ms": 2000,
+      "server_timeout_ms": 15000
+    },
+    "name": "v11",
+    "seed": 20261117,
+    "randomize_order": true,
+    "fragments_per_run": 16,
+    "warmup_fragments": 2,
+    "pause_s": 10,
+    "blocks": [
+      {
+        "name": "main",
+        "factors": {
+          "strategy": [
+            "S2",
+            "S4",
+            "S5"
+          ],
+          "network": [
+            "N1",
+            "N2",
+            "N3",
+            "N4"
+          ],
+          "device": [
+            "D1",
+            "D2",
+            "D3"
+          ]
+        },
+        "repetitions": 7
+      },
+      {
+        "name": "offline",
+        "factors": {
+          "strategy": [
+            "S5"
+          ],
+          "network": [
+            "N0"
+          ],
+          "device": [
+            "D1"
+          ]
+        },
+        "repetitions": 3
+      }
+    ]
+  },
+  "data_manifest_sha256": "faa69da2bb4eead20a0786a21b869efafb39a3b2f2a6fc835f36370ed55b0436"
+}

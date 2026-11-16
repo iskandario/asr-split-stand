@@ -1,0 +1,3 @@
+1794856641.105 log [stand] model loaded 5273 ms
+1794856655.191 log [stand] warmup {"localMs":4095.3199999999965,"serverMs":861.6193912999988,"mbps":0.8335864903757954,"rtt":315.67543808000295}
+1794856725.971 log [stand] done 16 fragments

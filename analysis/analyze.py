@@ -32,8 +32,8 @@ STRATS = ["S1", "S2", "S3", "S4"]
 SIMPLE = ["S1", "S2", "S3"]
 NETS = ["N1", "N2", "N3", "N4"]
 DEVS = ["D1", "D2", "D3"]
-COLORS = {"S1": "#4c72b0", "S2": "#dd8452", "S3": "#8c8c8c", "S4": "#2a9d55"}
-NAMES = {"S1": "S1 локально", "S2": "S2 сервер", "S3": "S3 порог", "S4": "S4 адаптивная"}
+COLORS = {"S1": "#4c72b0", "S2": "#dd8452", "S3": "#8c8c8c", "S4": "#2a9d55", "S5": "#8e44ad"}
+NAMES = {"S1": "S1 локально", "S2": "S2 сервер", "S3": "S3 порог", "S4": "S4 адаптивная", "S5": "S5 адаптивная + хеджирование"}
 
 
 # ---------- нормализация текста для WER ----------
@@ -176,6 +176,35 @@ def compare_s4(df: pd.DataFrame) -> pd.DataFrame:
     return out
 
 
+def compare_pair(df: pd.DataFrame, a_s: str, b_s: str) -> pd.DataFrame:
+    """a_s против b_s в каждом условии: H1 направленная (a_s быстрее) -> односторонний Манн–Уитни, Холм."""
+    rows = []
+    for (n, d), g in df.groupby(["network", "device"]):
+        a, b = g[g.strategy == a_s]["p95"].values, g[g.strategy == b_s]["p95"].values
+        if len(a) < 2 or len(b) < 2:
+            continue
+        _, p = stats.mannwhitneyu(a, b, alternative="less")
+        rel, lo, hi = boot_ci_rel_diff(a, b)
+        rows.append({"network": n, "device": d, "a": a_s, "b": b_s, "p95_a": np.median(a), "p95_b": np.median(b),
+                     "rel_diff": rel, "ci_low": lo, "ci_high": hi, "p": p, "cliff": cliffs_delta(a, b),
+                     "wer_diff_pp": (g[g.strategy == a_s]["wer"].median() - g[g.strategy == b_s]["wer"].median()) * 100})
+    out = pd.DataFrame(rows)
+    if len(out):
+        out["p_holm"] = holm(out["p"].tolist())
+        out["effect"] = out["cliff"].map(cliffs_label)
+    return out
+
+
+def pair_md(c: pd.DataFrame, title: str) -> list[str]:
+    md = ["", f"## {title}", "", "| Условие | p95 первой, с | p95 второй, с | Δ, % [95 % ДИ] | p₁ (Холм) | δ Клиффа | ΔWER, п. п. |",
+          "|---|---|---|---|---|---|---|"]
+    for _, r in c.iterrows():
+        md.append(f"| {r.network} × {r.device} | {r.p95_a/1000:.2f} | {r.p95_b/1000:.2f} | "
+                  f"{r.rel_diff*100:+.0f} [{r.ci_low*100:+.0f}; {r.ci_high*100:+.0f}] | {r.p_holm:.3f} | "
+                  f"{r.cliff:+.2f} ({r.effect}) | {r.wer_diff_pp:+.1f} |")
+    return md
+
+
 def regret(df: pd.DataFrame) -> pd.DataFrame:
     """Насколько каждая стратегия хуже лучшей в каждом условии (по медиане p95)."""
     med = df.groupby(["network", "device", "strategy"])["p95"].median().unstack()
@@ -211,7 +240,7 @@ def plot_boxes(df: pd.DataFrame, out: Path) -> None:
             ax.boxplot(data, widths=.55, showfliers=False, medianprops={"color": "black"})
             for k, (s, v) in enumerate(zip(STRATS, data), 1):
                 ax.scatter(k + rng.uniform(-.12, .12, len(v)), v, s=14, color=COLORS[s], zorder=3)
-            ax.set_xticks(range(1, 5), STRATS)
+            ax.set_xticks(range(1, len(STRATS) + 1), STRATS)
             ax.set_title(f"{n} × {d}", fontsize=10)
             ax.grid(axis="y", alpha=.3)
             if j == 0:
@@ -264,7 +293,7 @@ def plot_heatmap(reg: pd.DataFrame, out: Path) -> None:
     fig, ax = plt.subplots(figsize=(6.5, 6))
     v = reg[STRATS].values * 100
     im = ax.imshow(np.minimum(v, 300), cmap="YlOrRd", aspect="auto")
-    ax.set_xticks(range(4), STRATS)
+    ax.set_xticks(range(len(STRATS)), STRATS)
     ax.set_yticks(range(len(reg)), [f"{n} × {d}" for n, d in reg.index])
     for i in range(v.shape[0]):
         for j in range(v.shape[1]):
@@ -336,6 +365,9 @@ def main() -> None:
     fr.to_csv(out / "fragments.csv", index=False)
     main_df = df[df.block == "main"]
     off_df = df[df.block == "offline"]
+    global STRATS, SIMPLE
+    STRATS = sorted(main_df.strategy.unique())
+    SIMPLE = [s for s in ["S1", "S2", "S3"] if s in STRATS]
 
     summ = summary(main_df)
     summ.to_csv(out / "summary.csv", index=False)
@@ -347,7 +379,7 @@ def main() -> None:
           f"Коммит: {df.git_commit.iloc[0]}; Chromium {df.chromium.iloc[0]}; transformers.js {df.transformers.iloc[0]}.", ""]
 
     md += ["## Медиана p95 по повторам, с [95 % bootstrap-интервал]", "",
-           "| Сеть × устройство | " + " | ".join(STRATS) + " |", "|---|" + "---|" * 4]
+           "| Сеть × устройство | " + " | ".join(STRATS) + " |", "|---|" + "---|" * len(STRATS)]
     for n in NETS:
         for d in DEVS:
             cells = []
@@ -364,6 +396,12 @@ def main() -> None:
                   f"{r.rel_diff*100:+.0f} [{r.ci_low*100:+.0f}; {r.ci_high*100:+.0f}] | {r.p_holm:.3f} | "
                   f"{r.cliff:+.2f} ({r.effect}) | {r.wer_diff_pp:+.1f} | {'да' if r.h1 else 'нет'} |")
 
+    if "S5" in STRATS:
+        for x, y, title in (("S5", "S4", "S5 против S4 (эффект хеджирования)"), ("S5", "S2", "S5 против S2 (лучшей простой в v1.0)")):
+            if y in STRATS:
+                c = compare_pair(main_df, x, y)
+                c.to_csv(out / f"{x.lower()}_vs_{y.lower()}.csv", index=False)
+                md += pair_md(c, title)
     md += ["", "## Худший случай каждой стратегии (проигрыш лучшей стратегии условия по медиане p95)", "",
            "| Стратегия | Максимальный проигрыш, % | Среднее, % | Условие худшего случая |", "|---|---|---|---|"]
     for s in STRATS:
@@ -376,7 +414,7 @@ def main() -> None:
             md.append(f"| {s} | {len(g)} | {g.recognized.mean()*100:.0f} % |")
 
     wer_s = main_df.groupby("strategy")["wer"].median()
-    md += ["", "## Качество (WER, медиана по прогонам)", "", "| " + " | ".join(STRATS) + " |", "|" + "---|" * 4,
+    md += ["", "## Качество (WER, медиана по прогонам)", "", "| " + " | ".join(STRATS) + " |", "|" + "---|" * len(STRATS),
            "| " + " | ".join(f"{wer_s.get(s, float('nan'))*100:.1f} %" for s in STRATS) + " |"]
     loc = fr[(fr["where"] == "local") & ~fr.failed]
     srv = fr[(fr["where"] == "server") & ~fr.failed]

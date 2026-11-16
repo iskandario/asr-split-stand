@@ -7,3 +7,8 @@ results/raw/
 results/ci/
 .DS_Store
 results/*.log
+bench/webgpu/models/
+bench/webgpu/vendor/
+results/gh/
+results/gh11/
+results/webgpu/

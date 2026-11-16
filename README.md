@@ -44,8 +44,8 @@ make analyze     # results/processed: runs.csv, summary.csv, stats.md, граф�
 Проверить только анализ, без железа, на моих сырых данных:
 
 ```bash
-make analyze RAW=results/reference OUT=results/check
-diff results/check/stats.md results/processed/stats.md   # должно совпасть
+make analyze RAW=results/reference/v10 OUT=results/check
+diff results/check/stats.md results/reference/v10-processed/stats.md   # совпадает
 ```
 
 ## Как устроен стенд
