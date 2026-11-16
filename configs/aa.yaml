@@ -1,0 +1,12 @@
+# A/A-тест: одна конфигурация 10 раз, группы A и B назначаются случайно по сиду при анализе.
+include: base.yaml
+name: aa
+seed: 20261117
+randomize_order: false
+fragments_per_run: 20
+warmup_fragments: 3
+pause_s: 10
+blocks:
+  - name: aa
+    factors: {strategy: [S2], network: [N1], device: [D1]}
+    repetitions: 10

@@ -1,0 +1,7 @@
+global:
+  scrape_interval: 2s
+  evaluation_interval: 2s
+scrape_configs:
+  - job_name: asr-server
+    static_configs:
+      - targets: ["server:8000"]

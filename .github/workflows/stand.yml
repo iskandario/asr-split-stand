@@ -1,0 +1,40 @@
+# Независимая проверка: на чистой машине GitHub собирает стенд, гоняет тесты
+# и сокращённый эксперимент (configs/ci.yaml), сырые данные и графики — в артефактах.
+name: stand
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  reduced-experiment:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+        with:
+          version: "0.13.6"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Ядро с netem
+        run: sudo modprobe sch_netem || true
+      - name: Данные (SHA-256)
+        run: make data
+      - name: Юнит-тесты
+        run: make test
+      - name: Сборка образов
+        run: make build
+      - name: Smoke
+        run: make smoke
+      - name: Сокращённый эксперимент
+        run: make ci
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ci-results
+          path: |
+            results/raw/
+            results/ci/

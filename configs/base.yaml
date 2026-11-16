@@ -1,0 +1,30 @@
+# Общие параметры: уровни факторов, профили сети, настройки клиента.
+# Конфиги экспериментов (experiment.yaml, aa.yaml, ...) подключают этот файл через include.
+server_url: http://server:8000
+run_timeout_s: 900
+
+devices:                       # фактор «устройство»: квота CPU клиентского контейнера
+  D1: {cpus: 1.0, label: "быстрое (1 ядро)"}
+  D2: {cpus: 0.5, label: "среднее (0,5 ядра)"}
+  D3: {cpus: 0.25, label: "слабое (0,25 ядра)"}
+
+networks:                      # фактор «сеть»: tc netem на исходящем интерфейсе клиента
+  N0: {name: N0, loss_pct: 100, label: "нет сети"}
+  N1: {name: N1, rate: 50mbit, delay_ms: 20, label: "хорошая"}
+  N2: {name: N2, rate: 8mbit, delay_ms: 80, jitter_ms: 20, label: "мобильная"}
+  N3: {name: N3, rate: 1mbit, delay_ms: 250, loss_pct: 2, label: "плохая"}
+  N4: {name: N4, alternate: [N1, N3], period_s: 20, label: "нестабильная"}
+
+client:                        # параметры страницы и планировщика
+  local_model: whisper-base
+  threads: 1
+  max_new_tokens: 64         # одинаковый предел длины ответа на обеих сторонах (защита от зацикливания)
+  threshold_mbps: 5            # порог S3
+  margin: 0.1                  # S4 уходит на сервер, только если прогноз лучше на 10 %
+  ewma_alpha_net: 0.4
+  ewma_alpha_compute: 0.3
+  probe_interval_ms: 1000
+  probe_every: 3
+  probe_bytes: 16384
+  ping_timeout_ms: 2000
+  server_timeout_ms: 15000

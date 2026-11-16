@@ -1,0 +1,81 @@
+id,split,file,duration_s,sha256,text,source_row
+tune_000,tune,data/audio/tune_000.wav,3.920,8a84c3f5002038d8ed1f259e82a8f3a4f1eb2856d3be3d681778b4ac23d4b37a,добро пожаловать в рай покажи,1341
+tune_001,tune,data/audio/tune_001.wav,3.663,0a5d3a5ae6d74c7fc64e6e146a9a642fbf07732f008ec81d87c9af9165b1ae38,включай на смотрешке телеканал лдпр тв,743
+tune_002,tune,data/audio/tune_002.wav,3.390,adb493a993e17573a4408d89c9a8dba3563725884afc70df23019b186fa7bb9f,включи канал футбол эйч ди,23
+tune_003,tune,data/audio/tune_003.wav,2.800,7fd25b41168533404ec14e008fb66c167b0b0536f347f778195930fb102b7be2,врубай на смотрешке муз тв,17
+tune_004,tune,data/audio/tune_004.wav,3.980,0658611a3baa87a3e933f14ad5e7628c316c8a005a8fc2bc9a32cec494f25181,афина на берегу какого моря стоит город баку,2906
+tune_005,tune,data/audio/tune_005.wav,2.203,be1f42acaca7b7d4f0025c39c621cfbf097772f5cbda2f26dff4b602ab973869,как далеко от меня банкомат,3145
+tune_006,tune,data/audio/tune_006.wav,2.345,f5a504a5c87cf298466b82d83c672bcacb8f749ddfd0acf2f849a2390cc3a61d,сбер какая валюта в нанте,1527
+tune_007,tune,data/audio/tune_007.wav,4.880,7911466ee1998976e8126febc8399c028f616549c622323bc8a69d52b5516983,установи кинематографический фильм как заняться любовью с женщиной,3176
+tune_008,tune,data/audio/tune_008.wav,2.782,ff4418b3cf5b881b1945a4c36537f33d10fa20e08a9298565339a7dc81e0dcb3,афина банкоматы ближайшие маршруты,3155
+tune_009,tune,data/audio/tune_009.wav,2.245,d60609d9a6649557aa12af5718a6dc68d3c5fcacc44e9a3293862eb8f2b8d32a,найди сарафан на смотрешке,409
+tune_010,tune,data/audio/tune_010.wav,2.885,a19add36a316aca532e0b8d3b917ab8fc1354358935fc52be352c00ad27ede4a,можешь показать на смотрешке передачу муз тв,2983
+tune_011,tune,data/audio/tune_011.wav,2.972,f94eb1a79b29d9be48335ff158469ec1383d53a249b0b8a0c7cf8fb3c66f5d92,включай фильм авалон,969
+tune_012,tune,data/audio/tune_012.wav,2.860,bc91ffa4981634abd48e52af2e9caac7df08a367d44e1b6d1be447770f7032a3,поставь космос,1553
+tune_013,tune,data/audio/tune_013.wav,5.083,46648f914d93e26526ccfacb6022ef4f9fc79cf404f73d375a88b46644fa5bc1,афина сколько было детей у льва толстого,2651
+tune_014,tune,data/audio/tune_014.wav,3.088,2b77005b5882487c0ae77e39287aeb456685077543986d33a8824d741a9347b7,сказка о хвосте феи сезон семь,2093
+tune_015,tune,data/audio/tune_015.wav,4.080,912b4015139c20efc890842b59d954e882f439624c7d252a7d96a08c8091e86c,белый красный и покажи,781
+tune_016,tune,data/audio/tune_016.wav,3.506,12278b7e7b918af5eee7f9ad79e5099b831e17007364687508eac1b689078e7a,афина какие газы склонны оседать ниже,2711
+tune_017,tune,data/audio/tune_017.wav,3.120,f9fe902bf3a0f41ad3be72a7b19272811fca7fdfb9f979865820316fa9074b1b,ооо техно сервис поехали,1389
+tune_018,tune,data/audio/tune_018.wav,2.739,dd2e87e3b930d5d562a098b297246fdcdef95d78c5e1a3550bcf59357d07c5ef,в мобильном банке быстрый платеж,1952
+tune_019,tune,data/audio/tune_019.wav,7.520,4e9e593159cab439935ddebc9bb687f95b39a4e1e7aa37b59dd401b329444f1e,сбер кто должен платить неустойку,2555
+test_000,test,data/audio/test_000.wav,3.413,aeb1ba51d3160dd65dd20c16f36ba7c521c5394726385d02f579c253070ee17f,афина вообще,997
+test_001,test,data/audio/test_001.wav,5.440,d577015279ccd12aaafea8d001e36917804d2d97b783ff69754f7de154e3a9b5,гарри поттер и узник азкабана ты можешь показать,124
+test_002,test,data/audio/test_002.wav,2.838,2ca51d684157c472e443b0e9eeae774f47abd1a9e29432144eb0ce78249a62c4,эпизод тридцать четыре седьмой сезон щит,1447
+test_003,test,data/audio/test_003.wav,3.738,e63fb09c74d7e8575cdedfbe96bbb667553e881fa1bb65b24897c1cb333bf626,сбер перевести деньги коля работа,479
+test_004,test,data/audio/test_004.wav,2.900,30a6f00d6027f0727b4d1b6103171a9c06b1ad4a07704658e4b2164308aaeb25,искать стальная тревога,2428
+test_005,test,data/audio/test_005.wav,6.617,f14eb59b4779132976451bc32acae0da7f45b57b42deab8ce23cbbef61230465,сколько стоит купить пятьдесят пять евро в китайских юанях,322
+test_006,test,data/audio/test_006.wav,2.624,7ecb8b6d415380b08cc9cfea29b760c59896a3f2428d75cd1a01337ce99ebbc1,пожалуйста пополните мне счет,15
+test_007,test,data/audio/test_007.wav,3.520,e8d93f97e597c5ae842b08ae2df8b1bec8e135609cbfdfee2e604a73f07b7ab7,танюше топоровой,1867
+test_008,test,data/audio/test_008.wav,3.859,630c1f385b05748433f2ecddf63f48e0b482f89c2206be893497421c21db5776,цель поездки крупное почтовое отделение с банкоматом,418
+test_009,test,data/audio/test_009.wav,6.480,c09de31a9e7405fd26cf100e5897e2e873edf3a9313dc11fb325f49290955269,можешь включить годный фильмас в стилистике техно фэнтези,1632
+test_010,test,data/audio/test_010.wav,3.225,7f91871854595b4657e8f1756281499e506a939261a3dd867029b63354f4b865,вруби жанр поп,2904
+test_011,test,data/audio/test_011.wav,7.198,beb1606624a49e58ffa0bb8c75a82903f8aa5efbf248a1d812ee1b5348bf8dbe,пополнить телефон друга мегафон,2967
+test_012,test,data/audio/test_012.wav,2.282,7616b43491f801d27899aee0c2cc338f5e630a8c7d5a60c8855e79adeadd9de2,закажи вискас,2882
+test_013,test,data/audio/test_013.wav,4.063,33da2b70a6f4b906f364b19dc51447970785107af5a37f48b2480957a5b9962c,гордость и предупреждение первая серия,1471
+test_014,test,data/audio/test_014.wav,4.620,0e05fbd32bb11877abfc0b49563bf51ccad8b07ab8f1fc072c859a03c3004c8e,тридцать третья часть последнего сезона гравити фолз,2614
+test_015,test,data/audio/test_015.wav,4.181,6160e799dc1aa2c2ec90214a8bb7c31eb4e897d9de75681c67278ca3ec29fc78,педигри двести грамм с мясом,629
+test_016,test,data/audio/test_016.wav,2.577,ab7d1ec53ffd9b8fa74df47808ad413127cea737dd476fca28da2140bc88f45d,у тебя есть отряд самоубийц,801
+test_017,test,data/audio/test_017.wav,5.000,b85031bd88a1f022d62ee8132dc3560ef5db03805a5f42cba98247bce96fd3e8,любовницы две тысячи тринадцать пятнадцатый сезон,6
+test_018,test,data/audio/test_018.wav,4.120,7003a0dfb49abad2567b5fdc5224fd350b92153a71426ac016a2c64ad2f101e3,салют возведите пожалуйста в квадрат число двенадцать,1984
+test_019,test,data/audio/test_019.wav,3.680,c292014e64ac95370a6ba5aeb48e475e85659d9b0cb52f421fec82b9e5781c80,белый воротничок двенадцатый сезон,653
+test_020,test,data/audio/test_020.wav,2.925,2653b1d07e648f142d5a17d29865b4aab960a07b1dcc6c5a0fffe5e0cc776372,врубай бесстыдники четыре кей,934
+test_021,test,data/audio/test_021.wav,2.020,c19dbc4a5226aeebb5747b6ad14bc807c7672e31749c0583a77cbe593f215a77,валентина степаненко,2792
+test_022,test,data/audio/test_022.wav,4.080,7328d3c440e1bbee70288b803f3cc95351c6fa04ea420b89ef12ebb036a7c1dd,пополнить баланс маме двести рублей,2364
+test_023,test,data/audio/test_023.wav,3.260,9a1504cb42d55cb26c16919b10d79aa6874d890ac72c7bb0e93adc6bf6d1ab65,как обменять австралийские доллары на тенге,770
+test_024,test,data/audio/test_024.wav,7.120,8f62c7aada1e558dcdb9868fea24b176ba2735f5f56bf6ba01b09978bd485842,у тебя найдется серия четыре ханна монтана,2645
+test_025,test,data/audio/test_025.wav,2.773,2ec97179a58c819dcb05a6b34799f204191504b5cdb6bbe78f67683f100c4115,пролетая над гнездом кукушки,705
+test_026,test,data/audio/test_026.wav,2.540,52645920a782671ae5b79a28c39f468bd9d1879c9873af0a543a960ff2a10bee,адрес балашихинское,1556
+test_027,test,data/audio/test_027.wav,4.480,08b5c8ce161657e1f7184759464dada7916c839566c382777acf87dfb5523c95,особенные смотрю,2234
+test_028,test,data/audio/test_028.wav,4.884,5f2e661aef35cf2681d593e020c12289b5b96a56f4d325317c2b40cccc147e7b,можешь включить три дня лейтенанта кравцова,1344
+test_029,test,data/audio/test_029.wav,2.340,6fb09ed3fe9200f0c0bb6e96bdfba9d9f3be7e413678d5219cc5efb2cf171462,пао банк втб,1168
+test_030,test,data/audio/test_030.wav,2.800,757b850fb03b54a7dd9468b6d7863e7f772e22f856b4bbd42157aa147d766364,установи ледяной цветок,1365
+test_031,test,data/audio/test_031.wav,2.900,b240924c7d7e46608a4d27b0f10c05b8923f19eb4821ce5b062c3180b26bf74a,сан леополду,929
+test_032,test,data/audio/test_032.wav,2.484,0d46904e292f9719d4eec63c69506a854b3bacecc3fd01dd89e90bb1b32cd687,покажи на смотрешке передачу фэшен тв,357
+test_033,test,data/audio/test_033.wav,8.661,18267a23fc843380d0477c705a51c99df85f0b3c01ca1173a80720011156387f,триста семьдесят пять чешских крон переведи пожалуйста в фунты стерлинга,444
+test_034,test,data/audio/test_034.wav,4.480,f819c32b8b00987eca56fcb64b463236a3658ad92189b6bab00fcf6997223ed4,покажи чтец четыре ка,1505
+test_035,test,data/audio/test_035.wav,3.529,cc122c4f37e63e0000053a3c515777fda9326e4c897f4ecc492052e77769d8ed,покажи канал русский роман на тв,244
+test_036,test,data/audio/test_036.wav,3.620,072e8d7e917cc486d5c2f187c029d2d0369b17035f157ae604d2e583b4d236f6,фильм убийство по пятницам включи,469
+test_037,test,data/audio/test_037.wav,5.420,9290467af1b1d6c6a709fdd46b4eb10a48d2f60acdb3488fc65701a6eb6af778,эпизод тридцать сезон три тайный круг,927
+test_038,test,data/audio/test_038.wav,2.670,f0c17928b4912d4edbcb26405d56bfd17450d58a64b47c38095eea0a4584a7db,сашу фролова,1690
+test_039,test,data/audio/test_039.wav,3.390,b4010f605194c1dc1333feea658b738cd6c17d0399d75ddf25920733f28cc07a,у тебя в запасе есть я видел дьявола,962
+test_040,test,data/audio/test_040.wav,4.620,f1053b102ce4de9e3c366e6264b50cd4ed4de77d7308e71e5b4113dc9760638a,матч между манчестер юнайтед и саутгемптоном,3181
+test_041,test,data/audio/test_041.wav,2.880,671fcc6e742ae96a9bf06dcb1ee55c532bf215ef58469218885bb06a2d5e795e,фильм бриллиантовая рука,2751
+test_042,test,data/audio/test_042.wav,3.150,5e09a809e2d135c01dfaad8e9c09751f60a5dc7e9b9219d75ef166a017ac274e,включай на смотрешке передачу фэшен тв четыре к,2117
+test_043,test,data/audio/test_043.wav,4.160,4f7d9b8e53f66d4bc5ac70938c4ed7e4ab0370fb466c3ad501dfe51459a59f65,дело собчака подключи,499
+test_044,test,data/audio/test_044.wav,4.120,7b82b0a7303cd945da3fc8f5f26a9229db2652ec411d1126c2a8bcc157281001,напряги извилины включи,391
+test_045,test,data/audio/test_045.wav,2.060,b159d0c43e2082f135f26bc2c3754f3ca39f8d956baff11f8815abe6f564b4de,найди мне зи тв,2274
+test_046,test,data/audio/test_046.wav,2.480,7cb11b9919c64e754963ad89805b855f1fddc86f47f9df52cb99f9d814a0e6fa,смотреть фильм геошторм,2055
+test_047,test,data/audio/test_047.wav,3.440,5e890b3ef91757c2de39554215b74d53faf066b3ea2e178e45cc6d761339124a,фатима степанова,1411
+test_048,test,data/audio/test_048.wav,3.980,2035459b5f195c811c99da7f634086af12039bf4a063f3a92b3017ffcda0517f,афина включи эрмэш,1449
+test_049,test,data/audio/test_049.wav,3.449,72a47a909c43f69a123f0ad0d79722f28c0af63409fff2e430d059eb68d2d182,сбер какие координаты у алтай,3274
+test_050,test,data/audio/test_050.wav,2.786,c545245853dcad63630310f1a87f20b0abfb6322e7585a538e10397d4eb19e7e,джой запустить пятый канал,1270
+test_051,test,data/audio/test_051.wav,2.902,f2b6bc7e3db5168d80d7826acf9e665750b3a4346d0ed07d4b7a206c1492ef3b,канал звезда,2938
+test_052,test,data/audio/test_052.wav,2.380,3799c50d0d4d281d6788c43e7288c790c2be0b3bfc9483c16b48614fd522c24b,сбер мне нравится шаурма,1128
+test_053,test,data/audio/test_053.wav,4.203,e2676c2face73f0e1ba1ffa4a9ffb83950a74b9fc80668ae9c5bf2f2560c9bb8,афина кузнецов смотрит сериалы,1258
+test_054,test,data/audio/test_054.wav,7.059,6b04e6351359fb95263be24e4b6a4876eb2c3a019a293807dbb0de99aa4b9d25,нарой тринадцатую серию сезона два великолепный век,1943
+test_055,test,data/audio/test_055.wav,3.542,b778a65b613378ce36ab223d11b5cb5e4aab4cb2be0264083cd3485762540b91,включи мне фильмик николас кейдж призрак,2414
+test_056,test,data/audio/test_056.wav,3.274,3bc3592c587324b03d3f441dfe758ad0004f5b42402c7b057a53ab1069c305e7,включи ленту в поле зрения,55
+test_057,test,data/audio/test_057.wav,2.706,e9933fb16aa29e65bb52e484a553704d2ae35ddbe03897dc03d273710f34d43c,смотреть челси манчестер сити,355
+test_058,test,data/audio/test_058.wav,3.660,427afb08ab359c1d7a04a4da92281f1d664225801c0e1139f19c52e0eaf26b0e,запускай кинокартину в духе драмы,1135
+test_059,test,data/audio/test_059.wav,3.520,2a452590b081f1d3a5b45b9cde6b8fafa1eec96dbf117b685e2f1907f255dcab,борисом сергеевичем зариповым,2508

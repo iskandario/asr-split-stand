@@ -1,0 +1,12 @@
+# Сокращённый план для GitHub Actions: 2 стратегии × 2 сети, 2 повтора, 6 фрагментов.
+include: base.yaml
+name: ci
+seed: 7
+randomize_order: true
+fragments_per_run: 6
+warmup_fragments: 1
+pause_s: 0
+blocks:
+  - name: ci
+    factors: {strategy: [S2, S4], network: [N1, N3], device: [D1]}
+    repetitions: 2

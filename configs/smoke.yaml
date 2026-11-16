@@ -1,0 +1,12 @@
+# Быстрая проверка, что стенд работает целиком (≈ 2 минуты).
+include: base.yaml
+name: smoke
+seed: 1
+randomize_order: false
+fragments_per_run: 4
+warmup_fragments: 1
+pause_s: 0
+blocks:
+  - name: smoke
+    factors: {strategy: [S1, S4], network: [N2], device: [D1]}
+    repetitions: 1

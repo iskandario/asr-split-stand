@@ -1,0 +1,8 @@
+{
+  "name": "asr-stand-client-vendor",
+  "private": true,
+  "description": "Зависимости браузерной части стенда (копируются в образ клиента)",
+  "dependencies": {
+    "@huggingface/transformers": "3.8.1"
+  }
+}
