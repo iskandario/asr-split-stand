@@ -1,0 +1,37 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><style>
+body{margin:0;font:15px/1.35 "Helvetica Neue",Arial,sans-serif;color:#111;background:#fff}
+.w{width:1180px;padding:24px;display:grid;grid-template-columns:250px 1fr 300px;gap:26px;align-items:start}
+.box{border:2px solid #222;border-radius:10px;padding:10px 12px;background:#fff}
+.box h4{margin:0 0 4px;font-size:15px}.box p{margin:0;font-size:13px;color:#333}
+.grp{border:2px dashed #666;border-radius:14px;padding:30px 14px 14px;position:relative}
+.grp>.t{position:absolute;top:6px;left:14px;font-weight:700;font-size:13px;color:#444}
+.col{display:flex;flex-direction:column;gap:14px}.ar{font-size:12.5px;color:#444;text-align:center}
+.c{background:#eef4ff}.s{background:#fff3e8}.d{background:#f1f1f1}.a{background:#eef8f1}
+</style></head><body><div class="w">
+<div class="col">
+ <div class="box d"><h4>configs/*.yaml</h4><p>факторы и уровни, профили сети, повторы, сид, параметры планировщика</p></div>
+ <div class="ar">↓</div>
+ <div class="box d"><h4>runner/run_experiment.py</h4><p>план 4×4×3 (+офлайн), случайный порядок по сиду; на прогон: docker compose run client + манифест</p></div>
+ <div class="ar">↓ результаты</div>
+ <div class="box d"><h4>results/raw</h4><p>&lt;run&gt;.json — манифест<br>&lt;run&gt;.fragments.jsonl<br>&lt;run&gt;.client.json, console.log</p></div>
+ <div class="ar">↓</div>
+ <div class="box a"><h4>analysis/analyze.py</h4><p>p95 за прогон, WER, bootstrap, Манн–Уитни, δ Клиффа, Холм, A/A, графики</p></div>
+</div>
+<div class="grp"><span class="t">client — новый контейнер на каждый прогон, квота CPU = «устройство» D1/D2/D3</span>
+ <div class="col">
+  <div class="box c"><h4>driver/run_one.py</h4><p>tc netem на eth0 = «сеть» N0–N4 (N4: поток переключает N1↔N3 каждые 20 с); раздаёт страницу, модель и WAV с localhost</p></div>
+  <div class="ar">↓ Playwright 1.49.1</div>
+  <div class="box c"><h4>Chromium 131 headless</h4><p>страница: подача 16 фрагментов Golos в реальном времени, журнал performance.now()</p></div>
+  <div class="ar">↓</div>
+  <div class="box c"><h4>scheduler.js — S1 / S2 / S3 / S4</h4><p>EWMA оценки RTT, канала и времени модели; прогноз задержки обеих сторон с учётом очереди; откат на локальное по сроку</p></div>
+  <div class="ar">↓ локально</div>
+  <div class="box c"><h4>Web Worker: Whisper base q8</h4><p>transformers.js 3.8.1 → ONNX Runtime Web, Wasm, 1 поток</p></div>
+ </div>
+</div>
+<div class="col">
+ <div class="ar" style="margin-top:150px">← WAV по HTTP, зонды /ping /probe<br>(через netem)</div>
+ <div class="box s"><h4>server (compose)</h4><p>FastAPI + faster-whisper 1.1.0<br>Whisper base int8, 1 CPU, очередь на одну модель<br>/transcribe /ping /probe /metrics</p></div>
+ <div class="ar">↑ scrape 2 с</div>
+ <div class="box s"><h4>Prometheus 2.55.1</h4><p>время модели, очередь, CPU процесса сервера — пик за прогон в манифест</p></div>
+</div>
+</div></body></html>
