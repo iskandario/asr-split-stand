@@ -1,0 +1,76 @@
+{
+  "status": "done",
+  "run_id": "main-037-S3-N4-D3-r2",
+  "chromium": "131.0.6778.33",
+  "cpu_quota": "25000 100000",
+  "nproc": 4,
+  "qdisc_at_start": "qdisc noqueue 0: root refcnt 2",
+  "net_timeline": [
+    {
+      "t_epoch_ms": 1794846481467.3315,
+      "phase": "N1"
+    },
+    {
+      "t_epoch_ms": 1794846501659.5347,
+      "phase": "N3"
+    },
+    {
+      "t_epoch_ms": 1794846521662.3003,
+      "phase": "N1"
+    },
+    {
+      "t_epoch_ms": 1794846541664.5215,
+      "phase": "N3"
+    },
+    {
+      "t_epoch_ms": 1794846561666.698,
+      "phase": "N1"
+    },
+    {
+      "t_epoch_ms": 1794846581668.8691,
+      "phase": "N3"
+    },
+    {
+      "t_epoch_ms": 1794846601671.106,
+      "phase": "N1"
+    },
+    {
+      "t_epoch_ms": 1794846621673.3704,
+      "phase": "N3"
+    },
+    {
+      "t_epoch_ms": 1794846641675.6086,
+      "phase": "N1"
+    },
+    {
+      "t_epoch_ms": 1794846661677.9363,
+      "phase": "N3"
+    },
+    {
+      "t_epoch_ms": 1794846681760.8635,
+      "phase": "N1"
+    },
+    {
+      "t_epoch_ms": 1794846701763.0217,
+      "phase": "N3"
+    }
+  ],
+  "driver_wall_s": 233.19731402397156,
+  "server": "http://server:8000",
+  "ua": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/131.0.6778.33 Safari/537.36",
+  "cores": 4,
+  "localLoadMs": 29601.300000000047,
+  "transformersVersion": "3.8.1",
+  "afterWarmup": {
+    "localMs": 23011.81000000001,
+    "serverMs": 1112.5427131000038,
+    "mbps": 2.9039325200627206,
+    "rtt": 540.0766229320059
+  },
+  "t0_epoch_ms": 1794846559861.2998,
+  "wallMs": 153656.20000000007,
+  "traffic": {
+    "audio_bytes": 1016038,
+    "probe_bytes": 851968
+  }
+}

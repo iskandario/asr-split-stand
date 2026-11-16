@@ -1,7 +1,7 @@
 // Планировщик: где распознавать фрагмент речи — в браузере или на сервере.
 // Модуль без зависимостей от DOM: его же гоняют юнит-тесты (node --test tests/scheduler.test.mjs).
 
-export const STRATEGIES = ['S1', 'S2', 'S3', 'S4'];
+export const STRATEGIES = ['S1', 'S2', 'S3', 'S4', 'S5'];
 
 /** Экспоненциальное сглаживание; первое значение принимается как есть. */
 export class Ewma {
@@ -78,7 +78,8 @@ export function decide(strategy, bytes, state, opts = {}) {
       const fast = state.net.mbps() > thresholdMbps;
       return { ...base, where: fast ? 'server' : 'local', reason: fast ? 'канал выше порога' : 'канал ниже порога' };
     }
-    case 'S4': {
+    case 'S4':
+    case 'S5': { // S5 выбирает так же, как S4; отличается поведением при задержке ответа (хеджирование, main.js)
       if (!state.net.online || !Number.isFinite(predServer)) return { ...base, where: 'local', reason: 'сеть недоступна' };
       // сервер выбирается, только если он заметно быстрее: иначе звук не покидает устройство
       const server = predServer < predLocal * (1 - margin);
@@ -88,10 +89,11 @@ export function decide(strategy, bytes, state, opts = {}) {
   }
 }
 
-/** Срок ожидания ответа сервера, после которого S4 переключает фрагмент на локальное распознавание. */
+/** S4: срок, после которого запрос к серверу обрывается и фрагмент распознаётся локально.
+ *  S5: срок, после которого локальное распознавание запускается параллельно (запрос к серверу не обрывается). */
 export function serverDeadlineMs(strategy, predServer, opts = {}) {
   const hard = opts.hardTimeoutMs ?? 15000;
-  if (strategy !== 'S4') return hard;
+  if (strategy !== 'S4' && strategy !== 'S5') return hard;
   if (!Number.isFinite(predServer)) return 1500;
   return Math.min(hard, Math.max(1500, 2.5 * predServer));
 }

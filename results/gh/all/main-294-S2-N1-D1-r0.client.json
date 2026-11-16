@@ -1,0 +1,27 @@
+{
+  "status": "done",
+  "run_id": "main-294-S2-N1-D1-r0",
+  "chromium": "131.0.6778.33",
+  "cpu_quota": "100000 100000",
+  "nproc": 4,
+  "qdisc_at_start": "qdisc netem 8016: root refcnt 5 limit 10000 delay 20ms rate 50Mbit",
+  "net_timeline": [],
+  "driver_wall_s": 87.86615753173828,
+  "server": "http://server:8000",
+  "ua": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/131.0.6778.33 Safari/537.36",
+  "cores": 4,
+  "localLoadMs": 6660.399999999907,
+  "transformersVersion": "3.8.1",
+  "afterWarmup": {
+    "localMs": 4954.7400000000835,
+    "serverMs": 1083.699079799817,
+    "mbps": 7.256992899200924,
+    "rtt": null
+  },
+  "t0_epoch_ms": 1794848135170.6,
+  "wallMs": 68188.19999999972,
+  "traffic": {
+    "audio_bytes": 2387420,
+    "probe_bytes": 0
+  }
+}

@@ -5,9 +5,13 @@ name: experiment
 on:
   workflow_dispatch:
     inputs:
-      repetitions_note:
-        description: "Комментарий к запуску"
-        required: false
+      config:
+        description: "Конфиг эксперимента"
+        default: configs/experiment.yaml
+      with_aa:
+        description: "Выполнить A/A-тест"
+        type: boolean
+        default: true
 
 permissions:
   contents: read
@@ -40,20 +44,19 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - {name: aa, config: configs/aa.yaml, only: ""}
-          - {name: offline, config: configs/experiment.yaml, only: "--only block=offline"}
-          - {name: N1-D1, config: configs/experiment.yaml, only: "--only block=main --only network=N1 --only device=D1"}
-          - {name: N1-D2, config: configs/experiment.yaml, only: "--only block=main --only network=N1 --only device=D2"}
-          - {name: N1-D3, config: configs/experiment.yaml, only: "--only block=main --only network=N1 --only device=D3"}
-          - {name: N2-D1, config: configs/experiment.yaml, only: "--only block=main --only network=N2 --only device=D1"}
-          - {name: N2-D2, config: configs/experiment.yaml, only: "--only block=main --only network=N2 --only device=D2"}
-          - {name: N2-D3, config: configs/experiment.yaml, only: "--only block=main --only network=N2 --only device=D3"}
-          - {name: N3-D1, config: configs/experiment.yaml, only: "--only block=main --only network=N3 --only device=D1"}
-          - {name: N3-D2, config: configs/experiment.yaml, only: "--only block=main --only network=N3 --only device=D2"}
-          - {name: N3-D3, config: configs/experiment.yaml, only: "--only block=main --only network=N3 --only device=D3"}
-          - {name: N4-D1, config: configs/experiment.yaml, only: "--only block=main --only network=N4 --only device=D1"}
-          - {name: N4-D2, config: configs/experiment.yaml, only: "--only block=main --only network=N4 --only device=D2"}
-          - {name: N4-D3, config: configs/experiment.yaml, only: "--only block=main --only network=N4 --only device=D3"}
+          - {name: offline, config: x, only: "--only block=offline"}
+          - {name: N1-D1, config: x, only: "--only block=main --only network=N1 --only device=D1"}
+          - {name: N1-D2, config: x, only: "--only block=main --only network=N1 --only device=D2"}
+          - {name: N1-D3, config: x, only: "--only block=main --only network=N1 --only device=D3"}
+          - {name: N2-D1, config: x, only: "--only block=main --only network=N2 --only device=D1"}
+          - {name: N2-D2, config: x, only: "--only block=main --only network=N2 --only device=D2"}
+          - {name: N2-D3, config: x, only: "--only block=main --only network=N2 --only device=D3"}
+          - {name: N3-D1, config: x, only: "--only block=main --only network=N3 --only device=D1"}
+          - {name: N3-D2, config: x, only: "--only block=main --only network=N3 --only device=D2"}
+          - {name: N3-D3, config: x, only: "--only block=main --only network=N3 --only device=D3"}
+          - {name: N4-D1, config: x, only: "--only block=main --only network=N4 --only device=D1"}
+          - {name: N4-D2, config: x, only: "--only block=main --only network=N4 --only device=D2"}
+          - {name: N4-D3, config: x, only: "--only block=main --only network=N4 --only device=D3"}
     name: block ${{ matrix.name }}
     steps:
       - uses: actions/checkout@v4
@@ -76,9 +79,9 @@ jobs:
       - name: Прогоны блока
         run: |
           docker compose up -d --wait server prometheus
-          uv run --frozen python runner/run_experiment.py ${{ matrix.config }} ${{ matrix.only }} || true
+          uv run --frozen python runner/run_experiment.py ${{ inputs.config }} ${{ matrix.only }} || true
           # второй проход дозапускает упавшие прогоны (их манифест .failed.json не считается выполненным)
-          uv run --frozen python runner/run_experiment.py ${{ matrix.config }} ${{ matrix.only }}
+          uv run --frozen python runner/run_experiment.py ${{ inputs.config }} ${{ matrix.only }}
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -86,8 +89,36 @@ jobs:
           path: results/raw/
           retention-days: 90
 
+  aa:
+    needs: build
+    if: ${{ inputs.with_aa }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+        with: {version: "0.13.6"}
+      - name: Модуль netem
+        run: sudo modprobe sch_netem || (sudo apt-get update -q && sudo apt-get install -y -q linux-modules-extra-$(uname -r) && sudo modprobe sch_netem)
+      - name: Образы из GHCR
+        run: |
+          echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
+          for s in server client; do
+            docker pull -q $REG/asr-stand-$s:${{ github.sha }}
+            docker tag $REG/asr-stand-$s:${{ github.sha }} asr-stand-$s:1.0
+          done
+          docker pull -q prom/prometheus:v2.55.1
+      - run: make data
+      - name: A/A
+        run: |
+          docker compose up -d --wait server prometheus
+          uv run --frozen python runner/run_experiment.py configs/aa.yaml
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with: {name: raw-aa, path: results/raw/, retention-days: 90}
+
   analyze:
-    needs: block
+    needs: [block, aa]
     if: always()
     runs-on: ubuntu-24.04
     steps:
@@ -100,7 +131,7 @@ jobs:
           path: results/raw
           merge-multiple: true
       - name: Анализ
-        run: uv run --frozen python analysis/analyze.py
+        run: uv run --frozen python analysis/analyze.py --experiment $(grep -m1 '^name:' ${{ inputs.config }} | awk '{print $2}')
       - uses: actions/upload-artifact@v4
         with:
           name: processed

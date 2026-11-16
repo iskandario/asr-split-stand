@@ -1,0 +1,27 @@
+1794847042.580 log [stand] model loaded 6271 ms
+1794847045.701 error Failed to load resource: net::ERR_ADDRESS_UNREACHABLE
+1794847049.796 error Failed to load resource: net::ERR_ADDRESS_UNREACHABLE
+1794847049.796 log [stand] warm server Failed to fetch
+1794847049.796 error Failed to load resource: net::ERR_ADDRESS_UNREACHABLE
+1794847053.892 error Failed to load resource: net::ERR_ADDRESS_UNREACHABLE
+1794847053.892 log [stand] warm server Failed to fetch
+1794847053.892 log [stand] warmup {"localMs":4676.939999999968,"serverMs":null,"mbps":0,"rtt":null}
+1794847053.892 error Failed to load resource: net::ERR_ADDRESS_UNREACHABLE
+1794847057.988 error Failed to load resource: net::ERR_ADDRESS_UNREACHABLE
+1794847062.083 error Failed to load resource: net::ERR_ADDRESS_UNREACHABLE
+1794847066.180 error Failed to load resource: net::ERR_ADDRESS_UNREACHABLE
+1794847070.276 error Failed to load resource: net::ERR_ADDRESS_UNREACHABLE
+1794847074.374 error Failed to load resource: net::ERR_ADDRESS_UNREACHABLE
+1794847078.468 error Failed to load resource: net::ERR_ADDRESS_UNREACHABLE
+1794847082.564 error Failed to load resource: net::ERR_ADDRESS_UNREACHABLE
+1794847086.659 error Failed to load resource: net::ERR_ADDRESS_UNREACHABLE
+1794847090.756 error Failed to load resource: net::ERR_ADDRESS_UNREACHABLE
+1794847094.852 error Failed to load resource: net::ERR_ADDRESS_UNREACHABLE
+1794847098.948 error Failed to load resource: net::ERR_ADDRESS_UNREACHABLE
+1794847103.043 error Failed to load resource: net::ERR_ADDRESS_UNREACHABLE
+1794847107.140 error Failed to load resource: net::ERR_ADDRESS_UNREACHABLE
+1794847111.236 error Failed to load resource: net::ERR_ADDRESS_UNREACHABLE
+1794847115.332 error Failed to load resource: net::ERR_ADDRESS_UNREACHABLE
+1794847119.428 error Failed to load resource: net::ERR_ADDRESS_UNREACHABLE
+1794847123.523 error Failed to load resource: net::ERR_ADDRESS_UNREACHABLE
+1794847124.524 log [stand] done 16 fragments

@@ -1,0 +1,92 @@
+{
+  "status": "done",
+  "run_id": "main-245-S3-N4-D3-r0",
+  "chromium": "131.0.6778.33",
+  "cpu_quota": "25000 100000",
+  "nproc": 4,
+  "qdisc_at_start": "qdisc noqueue 0: root refcnt 2",
+  "net_timeline": [
+    {
+      "t_epoch_ms": 1794849669953.3796,
+      "phase": "N1"
+    },
+    {
+      "t_epoch_ms": 1794849690043.1497,
+      "phase": "N3"
+    },
+    {
+      "t_epoch_ms": 1794849710045.7903,
+      "phase": "N1"
+    },
+    {
+      "t_epoch_ms": 1794849730048.0854,
+      "phase": "N3"
+    },
+    {
+      "t_epoch_ms": 1794849750050.3103,
+      "phase": "N1"
+    },
+    {
+      "t_epoch_ms": 1794849770052.5225,
+      "phase": "N3"
+    },
+    {
+      "t_epoch_ms": 1794849790054.7917,
+      "phase": "N1"
+    },
+    {
+      "t_epoch_ms": 1794849810140.7034,
+      "phase": "N3"
+    },
+    {
+      "t_epoch_ms": 1794849830143.3054,
+      "phase": "N1"
+    },
+    {
+      "t_epoch_ms": 1794849850145.6406,
+      "phase": "N3"
+    },
+    {
+      "t_epoch_ms": 1794849870147.8682,
+      "phase": "N1"
+    },
+    {
+      "t_epoch_ms": 1794849890150.2737,
+      "phase": "N3"
+    },
+    {
+      "t_epoch_ms": 1794849910152.439,
+      "phase": "N1"
+    },
+    {
+      "t_epoch_ms": 1794849930154.8005,
+      "phase": "N3"
+    },
+    {
+      "t_epoch_ms": 1794849950239.3096,
+      "phase": "N1"
+    },
+    {
+      "t_epoch_ms": 1794849970241.5618,
+      "phase": "N3"
+    }
+  ],
+  "driver_wall_s": 302.79179096221924,
+  "server": "http://server:8000",
+  "ua": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/131.0.6778.33 Safari/537.36",
+  "cores": 4,
+  "localLoadMs": 30289.5,
+  "transformersVersion": "3.8.1",
+  "afterWarmup": {
+    "localMs": 22845.999999999905,
+    "serverMs": 1198.7147766000817,
+    "mbps": 0.9082651593334989,
+    "rtt": 341.5996779442212
+  },
+  "t0_epoch_ms": 1794849748605.7,
+  "wallMs": 223232.59999999963,
+  "traffic": {
+    "audio_bytes": 242740,
+    "probe_bytes": 1146880
+  }
+}

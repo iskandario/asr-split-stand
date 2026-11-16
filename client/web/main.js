@@ -86,7 +86,7 @@ async function run(cfg) {
   const frags = await Promise.all(cfg.fragments.map(fetchAudio));
 
   // зонды сети: только у стратегий, которые на них опираются
-  let probing = ['S3', 'S4'].includes(cfg.strategy);
+  let probing = ['S3', 'S4', 'S5'].includes(cfg.strategy);
   const probeBody = new Uint8Array(cfg.probe_bytes ?? 16384);
   const probeLoop = async () => {
     let k = 0;
@@ -149,8 +149,45 @@ async function run(cfg) {
       localEst.onDone(l.inferMs);
       rec.text = l.text; rec.infer_ms = l.inferMs; rec.done_where = 'local';
     };
+    // S5: запрос к серверу не обрывается; если он опаздывает, параллельно стартует локальное распознавание
+    const hedged = async () => {
+      const hedgeAt = serverDeadlineMs('S5', d.predServer, { hardTimeoutMs: cfg.server_timeout_ms });
+      rec.deadline_ms = hedgeAt;
+      serverPending += 1; queuedBytes += f.bytes;
+      const srv = serverCall(f, cfg.server_timeout_ms).then((s) => {
+        traffic.audio += f.bytes;
+        serverEst.onDone(s.infer_ms + s.queue_ms);
+        net.onTransfer(f.bytes, s.totalMs, s.infer_ms + s.queue_ms, now());
+        return { kind: 'server', s };
+      }, (e) => {
+        traffic.audio += f.bytes;
+        if (e.name !== 'AbortError') net.onFailure(now());
+        return { kind: 'error', e };
+      }).finally(() => { serverPending -= 1; queuedBytes -= f.bytes; });
+      let first = await Promise.race([srv, sleep(hedgeAt).then(() => ({ kind: 'hedge' }))]);
+      let loc = null;
+      if (first.kind === 'hedge') {
+        if (local.pending === 0) {           // свободная локальная модель — запускаем второй исполнитель
+          rec.hedged = true;
+          loc = local.submit(f.id, f.pcm).then((l) => { localEst.onDone(l.inferMs); return { kind: 'local', l }; });
+          first = await Promise.race([srv, loc]);
+          if (first.kind === 'error') first = await loc;
+        } else first = await srv;            // локальная очередь занята — ждать сервер выгоднее
+      }
+      if (first.kind === 'error') {            // сети нет — как у S4, откат на локальное
+        rec.server_error = String(first.e.message); rec.fallback = true;
+        await runLocal(); return;
+      }
+      if (first.kind === 'server') {
+        const s = first.s;
+        rec.text = s.text; rec.infer_ms = s.infer_ms; rec.server_queue_ms = s.queue_ms; rec.done_where = 'server';
+      } else {
+        rec.text = first.l.text; rec.infer_ms = first.l.inferMs; rec.done_where = 'local';
+      }
+    };
     try {
       if (d.where === 'local') await runLocal();
+      else if (cfg.strategy === 'S5') await hedged();
       else {
         const deadline = serverDeadlineMs(cfg.strategy, d.predServer, { hardTimeoutMs: cfg.server_timeout_ms });
         rec.deadline_ms = deadline;

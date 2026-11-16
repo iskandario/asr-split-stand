@@ -1,0 +1,72 @@
+{
+  "status": "done",
+  "run_id": "main-270-S3-N4-D3-r5",
+  "chromium": "131.0.6778.33",
+  "cpu_quota": "25000 100000",
+  "nproc": 4,
+  "qdisc_at_start": "qdisc noqueue 0: root refcnt 2",
+  "net_timeline": [
+    {
+      "t_epoch_ms": 1794850443118.001,
+      "phase": "N1"
+    },
+    {
+      "t_epoch_ms": 1794850463205.2644,
+      "phase": "N3"
+    },
+    {
+      "t_epoch_ms": 1794850483207.8503,
+      "phase": "N1"
+    },
+    {
+      "t_epoch_ms": 1794850503209.9849,
+      "phase": "N3"
+    },
+    {
+      "t_epoch_ms": 1794850523212.2732,
+      "phase": "N1"
+    },
+    {
+      "t_epoch_ms": 1794850543214.5527,
+      "phase": "N3"
+    },
+    {
+      "t_epoch_ms": 1794850563216.8667,
+      "phase": "N1"
+    },
+    {
+      "t_epoch_ms": 1794850583219.106,
+      "phase": "N3"
+    },
+    {
+      "t_epoch_ms": 1794850603221.7122,
+      "phase": "N1"
+    },
+    {
+      "t_epoch_ms": 1794850623302.8594,
+      "phase": "N3"
+    },
+    {
+      "t_epoch_ms": 1794850643305.1309,
+      "phase": "N1"
+    }
+  ],
+  "driver_wall_s": 219.78961730003357,
+  "server": "http://server:8000",
+  "ua": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/131.0.6778.33 Safari/537.36",
+  "cores": 4,
+  "localLoadMs": 29301.700000000186,
+  "transformersVersion": "3.8.1",
+  "afterWarmup": {
+    "localMs": 21467.53000000035,
+    "serverMs": 1140.0436403999265,
+    "mbps": 1.6405165877414412,
+    "rtt": 273.13659349308057
+  },
+  "t0_epoch_ms": 1794850518698.0999,
+  "wallMs": 143027.7000000002,
+  "traffic": {
+    "audio_bytes": 1032774,
+    "probe_bytes": 802816
+  }
+}

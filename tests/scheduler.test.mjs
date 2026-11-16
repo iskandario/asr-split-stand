@@ -66,3 +66,13 @@ test('срок ожидания сервера: S4 — 2,5 прогноза в �
   assert.equal(serverDeadlineMs('S4', 1e6), 15000);
   assert.equal(serverDeadlineMs('S2', 100), 15000);
 });
+
+test('S5 выбирает так же, как S4', () => {
+  for (const st of [state({ mbps: 50, local: 6000 }), state({ mbps: 1, rtt: 250 }), state({ online: false })]) {
+    assert.equal(decide('S5', BYTES, st).where, decide('S4', BYTES, st).where);
+  }
+});
+
+test('S5: срок хеджирования как у S4', () => {
+  assert.equal(serverDeadlineMs('S5', 1000), serverDeadlineMs('S4', 1000));
+});

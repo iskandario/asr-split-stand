@@ -1,0 +1,22 @@
+# v1.1: проверка исправления S4 -> S5 (хеджирование вместо обрыва запроса).
+# В каждом блоке «сеть × устройство» на одной машине: S2 (лучшая простая почти везде в v1.0), S4 (v1.0) и S5.
+include: base.yaml
+name: v11
+seed: 20261117
+randomize_order: true
+fragments_per_run: 16
+warmup_fragments: 2
+pause_s: 10
+blocks:
+  - name: main
+    factors:
+      strategy: [S2, S4, S5]
+      network: [N1, N2, N3, N4]
+      device: [D1, D2, D3]
+    repetitions: 7
+  - name: offline
+    factors:
+      strategy: [S5]
+      network: [N0]
+      device: [D1]
+    repetitions: 3
