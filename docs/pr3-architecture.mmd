@@ -1,0 +1,22 @@
+flowchart LR
+  subgraph Host[Хост: macOS / Linux]
+    DRV[Драйвер эксперимента<br/>Python + Playwright] -->|CDP: CPU throttling,<br/>fake audio| EXT
+    subgraph CH[Chrome for Testing]
+      EXT[Расширение MV3<br/>offscreen document]
+      SCH[Планировщик S1–S4]
+      LOC[Локальный ASR<br/>transformers.js + ORT Web<br/>WebGPU / Wasm]
+      EXT --> SCH --> LOC
+    end
+  end
+  subgraph Stand[docker compose]
+    SH[Шейпер сети<br/>tc netem + nginx] -->|HTTP/WebSocket| SRV[Сервер ASR<br/>FastAPI + faster-whisper]
+    PROM[Prometheus] -->|scrape| SRV
+    PROM -->|scrape| CAD[cAdvisor]
+  end
+  SCH -->|аудиофрагменты| SH
+  DRV -->|профиль сети| SH
+  EXT -->|JSONL метрики| DRV
+  DRV --> RAW[(results/raw)]
+  PROM -->|экспорт| RAW
+  RAW --> AN[analysis.py]
+  AN --> REP[таблицы, графики, stats.md]
