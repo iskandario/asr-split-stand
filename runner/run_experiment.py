@@ -113,6 +113,14 @@ def image_info() -> dict:
 def host_info() -> dict:
     info = {"os": platform.platform(), "machine": platform.machine(), "cpu_count": os.cpu_count(),
             "python": platform.python_version()}
+    if sys.platform.startswith("linux"):
+        try:
+            cpu = [l.split(":", 1)[1].strip() for l in open("/proc/cpuinfo") if l.startswith("model name")]
+            info["cpu"] = cpu[0] if cpu else platform.processor()
+            info["mem_bytes"] = int(open("/proc/meminfo").readline().split()[1]) * 1024
+        except OSError:
+            pass
+        info["ci"] = {k: os.environ.get(k) for k in ("GITHUB_RUN_ID", "GITHUB_JOB", "RUNNER_NAME", "GITHUB_SHA") if os.environ.get(k)}
     if sys.platform == "darwin":
         info["cpu"] = sh("sysctl", "-n", "machdep.cpu.brand_string", check=False)
         info["mem_bytes"] = int(sh("sysctl", "-n", "hw.memsize", check=False) or 0)
@@ -170,10 +178,15 @@ def main() -> int:
     ap.add_argument("config", type=Path)
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--limit", type=int, default=None, help="выполнить не больше N прогонов")
+    ap.add_argument("--only", action="append", default=[], metavar="KEY=VALUE",
+                    help="выполнить часть плана, напр. --only network=N1 --only device=D1 (блок CI-задачи)")
     a = ap.parse_args()
 
     cfg = load_config(a.config)
-    plan = build_plan(cfg)
+    plan = build_plan(cfg)  # порядок и run_id — из полного плана, фильтр только выбирает подмножество
+    for f in a.only:
+        k, v = f.split("=", 1)
+        plan = [p for p in plan if str(p[k]) == v]
     RAW.mkdir(parents=True, exist_ok=True)
     todo = [p for p in plan if not (RAW / f"{p['run_id']}.json").exists()]
     print(f"{cfg['name']}: в плане {len(plan)} прогонов, осталось {len(todo)}")

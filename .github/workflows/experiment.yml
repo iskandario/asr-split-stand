@@ -1,0 +1,108 @@
+# Полный эксперимент на раннерах GitHub (запуск вручную: Actions → experiment → Run workflow).
+# Блочный план: каждое условие «сеть × устройство» — отдельная задача на своей машине, внутри неё все
+# 4 стратегии × 7 повторов в случайном порядке. Сравнения стратегий идут внутри условия, т. е. на одном железе.
+name: experiment
+on:
+  workflow_dispatch:
+    inputs:
+      repetitions_note:
+        description: "Комментарий к запуску"
+        required: false
+
+permissions:
+  contents: read
+  packages: write
+
+env:
+  REG: ghcr.io/${{ github.repository_owner }}
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - name: Сборка образов
+        run: docker compose --profile run build
+      - name: Публикация в GHCR (для задач-блоков)
+        run: |
+          echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
+          for s in server client; do
+            docker tag asr-stand-$s:1.0 $REG/asr-stand-$s:${{ github.sha }}
+            docker push $REG/asr-stand-$s:${{ github.sha }}
+          done
+
+  block:
+    needs: build
+    runs-on: ubuntu-24.04
+    timeout-minutes: 350
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - {name: aa, config: configs/aa.yaml, only: ""}
+          - {name: offline, config: configs/experiment.yaml, only: "--only block=offline"}
+          - {name: N1-D1, config: configs/experiment.yaml, only: "--only block=main --only network=N1 --only device=D1"}
+          - {name: N1-D2, config: configs/experiment.yaml, only: "--only block=main --only network=N1 --only device=D2"}
+          - {name: N1-D3, config: configs/experiment.yaml, only: "--only block=main --only network=N1 --only device=D3"}
+          - {name: N2-D1, config: configs/experiment.yaml, only: "--only block=main --only network=N2 --only device=D1"}
+          - {name: N2-D2, config: configs/experiment.yaml, only: "--only block=main --only network=N2 --only device=D2"}
+          - {name: N2-D3, config: configs/experiment.yaml, only: "--only block=main --only network=N2 --only device=D3"}
+          - {name: N3-D1, config: configs/experiment.yaml, only: "--only block=main --only network=N3 --only device=D1"}
+          - {name: N3-D2, config: configs/experiment.yaml, only: "--only block=main --only network=N3 --only device=D2"}
+          - {name: N3-D3, config: configs/experiment.yaml, only: "--only block=main --only network=N3 --only device=D3"}
+          - {name: N4-D1, config: configs/experiment.yaml, only: "--only block=main --only network=N4 --only device=D1"}
+          - {name: N4-D2, config: configs/experiment.yaml, only: "--only block=main --only network=N4 --only device=D2"}
+          - {name: N4-D3, config: configs/experiment.yaml, only: "--only block=main --only network=N4 --only device=D3"}
+    name: block ${{ matrix.name }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+        with: {version: "0.13.6"}
+      - name: Модуль netem
+        run: |
+          sudo modprobe sch_netem || (sudo apt-get update -q && sudo apt-get install -y -q linux-modules-extra-$(uname -r) && sudo modprobe sch_netem)
+          lsmod | grep netem
+      - name: Образы из GHCR
+        run: |
+          echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
+          for s in server client; do
+            docker pull -q $REG/asr-stand-$s:${{ github.sha }}
+            docker tag $REG/asr-stand-$s:${{ github.sha }} asr-stand-$s:1.0
+          done
+          docker pull -q prom/prometheus:v2.55.1
+      - name: Данные (SHA-256)
+        run: make data
+      - name: Прогоны блока
+        run: |
+          docker compose up -d --wait server prometheus
+          uv run --frozen python runner/run_experiment.py ${{ matrix.config }} ${{ matrix.only }} || true
+          # второй проход дозапускает упавшие прогоны (их манифест .failed.json не считается выполненным)
+          uv run --frozen python runner/run_experiment.py ${{ matrix.config }} ${{ matrix.only }}
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: raw-${{ matrix.name }}
+          path: results/raw/
+          retention-days: 90
+
+  analyze:
+    needs: block
+    if: always()
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+        with: {version: "0.13.6"}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: raw-*
+          path: results/raw
+          merge-multiple: true
+      - name: Анализ
+        run: uv run --frozen python analysis/analyze.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: processed
+          path: results/processed/
+          retention-days: 90
