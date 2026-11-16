@@ -23,7 +23,7 @@
 ## Быстрая проверка (≈ 15 минут)
 
 ```bash
-git clone <repo> asr-split-stand && cd asr-split-stand
+git clone https://github.com/iskandario/asr-split-stand && cd asr-split-stand
 git checkout v1.0
 make data     # 80 фрагментов Golos, сверка SHA-256 с data/manifest.csv
 make build    # образы сервера и клиента

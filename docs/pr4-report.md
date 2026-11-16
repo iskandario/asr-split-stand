@@ -7,7 +7,7 @@ title_page:
   - {text: "«Реализация, тестирование и оценка экспериментального стенда»", bold: true}
   - {text: "Тема ВКР: «Динамическое распределение вычислений между браузерным расширением и сервером при распознавании речи с учётом производительности устройства и состояния сети»", space_before: 18}
   - {text: "Выполнил: Гарифуллин Искандар", align: right, space_before: 90}
-  - {text: "Репозиторий: asr-split-stand, тег v1.0", align: right}
+  - {text: "Репозиторий: github.com/iskandario/asr-split-stand, тег v1.0", align: right}
   - {text: "2026", space_before: 110}
 ---
 
@@ -105,7 +105,7 @@ netem применяется к исходящему трафику клиент
 Полная инструкция — в `README.md`. Нужны Docker с Compose v2, uv и (для юнит-тестов планировщика) Node.js 20+.
 
 ```
-git clone <repo> asr-split-stand && cd asr-split-stand && git checkout v1.0
+git clone https://github.com/iskandario/asr-split-stand && cd asr-split-stand && git checkout v1.0
 make data        # 80 фрагментов Golos, сверка SHA-256
 make build       # образы сервера и клиента; модели скачиваются по ревизиям
 make test        # 10 юнит-тестов планировщика (node --test) и 8 тестов анализа/раннера (pytest)
