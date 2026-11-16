@@ -157,12 +157,14 @@ def compare_s4(df: pd.DataFrame) -> pd.DataFrame:
             continue
         best = med[[s for s in SIMPLE if s in med]].idxmin()
         a, b = g[g.strategy == "S4"]["p95"].values, g[g.strategy == best]["p95"].values
-        _, p = stats.mannwhitneyu(a, b, alternative="two-sided")
+        # H1 направленная (S4 быстрее), направление задано до эксперимента (ПР3) -> односторонний тест
+        _, p = stats.mannwhitneyu(a, b, alternative="less")
+        _, p2 = stats.mannwhitneyu(a, b, alternative="two-sided")
         rel, lo, hi = boot_ci_rel_diff(a, b)
         wa, wb = g[g.strategy == "S4"]["wer"].median(), g[g.strategy == best]["wer"].median()
         worst = med[[s for s in SIMPLE if s in med]].idxmax()
         rows.append({"network": n, "device": d, "best_simple": best, "p95_S4": np.median(a), "p95_best": np.median(b),
-                     "rel_diff": rel, "ci_low": lo, "ci_high": hi, "p": p, "cliff": cliffs_delta(a, b),
+                     "rel_diff": rel, "ci_low": lo, "ci_high": hi, "p": p, "p_two_sided": p2, "cliff": cliffs_delta(a, b),
                      "wer_S4": wa, "wer_best": wb, "wer_diff_pp": (wa - wb) * 100,
                      "worst_simple": worst, "rel_vs_worst": (np.median(a) - med[worst]) / med[worst]})
     out = pd.DataFrame(rows)
@@ -296,9 +298,9 @@ def plot_timeline(fr: pd.DataFrame, out: Path) -> None:
     g = g[g.run_id == rid].sort_values("ready_ms")
     fig, ax = plt.subplots(figsize=(10, 3.4))
     for where, c in (("local", COLORS["S1"]), ("server", COLORS["S2"])):
-        h = g[g.where == where]
+        h = g[g["where"] == where]
         ax.scatter(h.ready_ms / 1000, h.latency_ms / 1000, color=c, label=f"выполнено: {where}", s=30)
-    fb = g[g.fallback]
+    fb = g[g["fallback"].astype(bool)]
     ax.scatter(fb.ready_ms / 1000, fb.latency_ms / 1000, facecolors="none", edgecolors="red", s=90, label="откат на локальное")
     ax2 = ax.twinx()
     ax2.step(g.ready_ms / 1000, g.est_mbps, where="post", color="gray", alpha=.6)
@@ -355,7 +357,7 @@ def main() -> None:
             md.append(f"| {n} × {d} | " + " | ".join(cells) + " |")
 
     md += ["", "## S4 против лучшей простой стратегии условия", "",
-           "| Условие | Лучшая простая | p95 S4, с | p95 лучшей, с | Δ, % [95 % ДИ] | p (Холм) | δ Клиффа | ΔWER, п. п. | H₁ |",
+           "| Условие | Лучшая простая | p95 S4, с | p95 лучшей, с | Δ, % [95 % ДИ] | p₁ (Холм) | δ Клиффа | ΔWER, п. п. | H₁ |",
            "|---|---|---|---|---|---|---|---|---|"]
     for _, r in cmp_.iterrows():
         md.append(f"| {r.network} × {r.device} | {r.best_simple} | {fmt_s(r.p95_S4)} | {fmt_s(r.p95_best)} | "
@@ -376,8 +378,8 @@ def main() -> None:
     wer_s = main_df.groupby("strategy")["wer"].median()
     md += ["", "## Качество (WER, медиана по прогонам)", "", "| " + " | ".join(STRATS) + " |", "|" + "---|" * 4,
            "| " + " | ".join(f"{wer_s.get(s, float('nan'))*100:.1f} %" for s in STRATS) + " |"]
-    loc = fr[(fr.where == "local") & ~fr.failed]
-    srv = fr[(fr.where == "server") & ~fr.failed]
+    loc = fr[(fr["where"] == "local") & ~fr.failed]
+    srv = fr[(fr["where"] == "server") & ~fr.failed]
     md += ["", f"WER всех локально распознанных фрагментов: {wer(loc.ref.tolist(), loc.hyp.tolist())*100:.1f} %, "
            f"на сервере: {wer(srv.ref.tolist(), srv.hyp.tolist())*100:.1f} %."]
 

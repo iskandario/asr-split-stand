@@ -3,8 +3,8 @@ include: base.yaml
 name: main
 seed: 20261116
 randomize_order: true
-fragments_per_run: 20          # фрагменты test_000…test_019 (≈ 75 с речи), одинаковые во всех прогонах
-warmup_fragments: 3            # tune_000…tune_002: и локально, и на сервере, в анализ не идут
+fragments_per_run: 16          # фрагменты test_000…test_015 (≈ 60 с речи), одинаковые во всех прогонах
+warmup_fragments: 2            # tune_000, tune_001: и локально, и на сервере, в анализ не идут
 pause_s: 10
 blocks:
   - name: main
@@ -12,7 +12,7 @@ blocks:
       strategy: [S1, S2, S3, S4]
       network: [N1, N2, N3, N4]
       device: [D1, D2, D3]
-    repetitions: 5
+    repetitions: 7               # 7 + односторонний тест: минимальный p после Холма на 12 сравнений ≈ 0,0035
   - name: offline              # H2: работа без сети
     factors:
       strategy: [S1, S2, S3, S4]

@@ -3,8 +3,8 @@ include: base.yaml
 name: aa
 seed: 20261117
 randomize_order: false
-fragments_per_run: 20
-warmup_fragments: 3
+fragments_per_run: 16
+warmup_fragments: 2
 pause_s: 10
 blocks:
   - name: aa

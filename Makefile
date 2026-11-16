@@ -37,7 +37,7 @@ smoke: up ## проверка стенда целиком: сервер отве
 aa: up ## A/A-тест: 10 прогонов одной конфигурации (~25 мин)
 	$(KEEPAWAKE) $(RUN) python runner/run_experiment.py configs/aa.yaml
 
-experiment: up ## основной эксперимент: 252 прогона (~12 ч), продолжает с места остановки
+experiment: up ## основной эксперимент: 348 прогонов (~15 ч), продолжает с места остановки
 	$(KEEPAWAKE) $(RUN) python runner/run_experiment.py configs/experiment.yaml
 
 analyze: ## таблицы, статистика и графики: $(RAW) -> $(OUT)
