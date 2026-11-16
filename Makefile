@@ -23,7 +23,7 @@ up: ## поднять сервер распознавания и Prometheus
 	docker compose up -d --wait server prometheus
 
 test: ## юнит-тесты планировщика (Node) и анализа/раннера (pytest)
-	node --test tests/
+	node --test tests/*.test.mjs
 	$(RUN) pytest -q
 
 smoke: up ## проверка стенда целиком: сервер отвечает, метрики есть, 2 коротких прогона проходят
