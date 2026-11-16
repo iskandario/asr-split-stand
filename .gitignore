@@ -6,3 +6,4 @@ data/audio/
 results/raw/
 results/ci/
 .DS_Store
+results/*.log
